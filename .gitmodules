@@ -1,0 +1,24 @@
+[submodule "extern/libzmq"]
+	path = extern/libzmq
+	url = https://gitee.com/mirrors/libzmq.git
+[submodule "extern/protobuf"]
+	path = extern/protobuf
+	url = https://gitee.com/mirrors/protobufsource.git
+[submodule "self/protobuf/message"]
+	path = self/protobuf/message
+	url = ssh://zhoufan@gerrit.tsaodai.com:29418/message
+[submodule "extern/pybind11"]
+	path = extern/pybind11
+	url = https://gitee.com/mirrors/pybind11.git
+[submodule "extern/curl"]
+	path = extern/curl
+	url = https://gitee.com/mirrors/curl.git
+[submodule "extern/googletest"]
+	path = extern/googletest
+	url = https://gitee.com/mirrors/googletest.git
+[submodule "extern/quickfix"]
+	path = extern/quickfix
+	url = https://gitee.com/mirrors_quickfix/quickfix.git
+[submodule "extern/sqlite3"]
+	path = extern/sqlite3
+	url = https://gitee.com/mirrors/sqlite
