@@ -140,6 +140,7 @@ PROTOBUF_CONSTEXPR Order::Order(
   , /*decltype(_impl_.comb_offset_flag_)*/0
   , /*decltype(_impl_.hold_volume_)*/0u
   , /*decltype(_impl_.order_type_)*/0
+  , /*decltype(_impl_.is_special_)*/0u
   , /*decltype(_impl_._cached_size_)*/{}} {}
 struct OrderDefaultTypeInternal {
   PROTOBUF_CONSTEXPR OrderDefaultTypeInternal()
@@ -356,7 +357,8 @@ struct GroupSizeReqDefaultTypeInternal {
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 GroupSizeReqDefaultTypeInternal _GroupSizeReq_default_instance_;
 PROTOBUF_CONSTEXPR GroupSizeRsp::GroupSizeRsp(
     ::_pbi::ConstantInitialized): _impl_{
-    /*decltype(_impl_.size_rsp_)*/0u
+    /*decltype(_impl_.common_size_rsp_)*/0u
+  , /*decltype(_impl_.special_size_rsp_)*/0u
   , /*decltype(_impl_._cached_size_)*/{}} {}
 struct GroupSizeRspDefaultTypeInternal {
   PROTOBUF_CONSTEXPR GroupSizeRspDefaultTypeInternal()
@@ -472,6 +474,7 @@ const uint32_t TableStruct_strategy_2dtrader_2eproto::offsets[] PROTOBUF_SECTION
   PROTOBUF_FIELD_OFFSET(::strategy_trader::Order, _impl_.comb_offset_flag_),
   PROTOBUF_FIELD_OFFSET(::strategy_trader::Order, _impl_.hold_volume_),
   PROTOBUF_FIELD_OFFSET(::strategy_trader::Order, _impl_.order_type_),
+  PROTOBUF_FIELD_OFFSET(::strategy_trader::Order, _impl_.is_special_),
   ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::strategy_trader::TransactionCostReq, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -598,7 +601,8 @@ const uint32_t TableStruct_strategy_2dtrader_2eproto::offsets[] PROTOBUF_SECTION
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
   ~0u,  // no _inlined_string_donated_
-  PROTOBUF_FIELD_OFFSET(::strategy_trader::GroupSizeRsp, _impl_.size_rsp_),
+  PROTOBUF_FIELD_OFFSET(::strategy_trader::GroupSizeRsp, _impl_.common_size_rsp_),
+  PROTOBUF_FIELD_OFFSET(::strategy_trader::GroupSizeRsp, _impl_.special_size_rsp_),
 };
 static const ::_pbi::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
   { 0, -1, -1, sizeof(::strategy_trader::message)},
@@ -609,21 +613,21 @@ static const ::_pbi::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protode
   { 68, -1, -1, sizeof(::strategy_trader::OrderInsertReq)},
   { 77, -1, -1, sizeof(::strategy_trader::RspInfo)},
   { 85, -1, -1, sizeof(::strategy_trader::Order)},
-  { 99, -1, -1, sizeof(::strategy_trader::TransactionCostReq)},
-  { 106, -1, -1, sizeof(::strategy_trader::MarginRateRsp)},
-  { 121, -1, -1, sizeof(::strategy_trader::CommissionRateRsp)},
-  { 138, -1, -1, sizeof(::strategy_trader::InstrumentInfo)},
-  { 146, -1, -1, sizeof(::strategy_trader::AccountSetRsp)},
-  { 153, -1, -1, sizeof(::strategy_trader::ActiveSafetyReq)},
-  { 160, -1, -1, sizeof(::strategy_trader::ActiveSafetyRsp)},
-  { 167, -1, -1, sizeof(::strategy_trader::CheckStrategyAliveReq)},
-  { 174, -1, -1, sizeof(::strategy_trader::CheckStrategyAliveRsp)},
-  { 181, -1, -1, sizeof(::strategy_trader::CheckTraderAliveReq)},
-  { 188, -1, -1, sizeof(::strategy_trader::CheckTraderAliveRsp)},
-  { 195, -1, -1, sizeof(::strategy_trader::OrderPositionReq)},
-  { 203, -1, -1, sizeof(::strategy_trader::OrderPositionRsp)},
-  { 212, -1, -1, sizeof(::strategy_trader::GroupSizeReq)},
-  { 219, -1, -1, sizeof(::strategy_trader::GroupSizeRsp)},
+  { 100, -1, -1, sizeof(::strategy_trader::TransactionCostReq)},
+  { 107, -1, -1, sizeof(::strategy_trader::MarginRateRsp)},
+  { 122, -1, -1, sizeof(::strategy_trader::CommissionRateRsp)},
+  { 139, -1, -1, sizeof(::strategy_trader::InstrumentInfo)},
+  { 147, -1, -1, sizeof(::strategy_trader::AccountSetRsp)},
+  { 154, -1, -1, sizeof(::strategy_trader::ActiveSafetyReq)},
+  { 161, -1, -1, sizeof(::strategy_trader::ActiveSafetyRsp)},
+  { 168, -1, -1, sizeof(::strategy_trader::CheckStrategyAliveReq)},
+  { 175, -1, -1, sizeof(::strategy_trader::CheckStrategyAliveRsp)},
+  { 182, -1, -1, sizeof(::strategy_trader::CheckTraderAliveReq)},
+  { 189, -1, -1, sizeof(::strategy_trader::CheckTraderAliveRsp)},
+  { 196, -1, -1, sizeof(::strategy_trader::OrderPositionReq)},
+  { 204, -1, -1, sizeof(::strategy_trader::OrderPositionRsp)},
+  { 213, -1, -1, sizeof(::strategy_trader::GroupSizeReq)},
+  { 220, -1, -1, sizeof(::strategy_trader::GroupSizeRsp)},
 };
 
 static const ::_pb::Message* const file_default_instances[] = {
@@ -701,65 +705,66 @@ const char descriptor_table_protodef_strategy_2dtrader_2eproto[] PROTOBUF_SECTIO
   "rderInsertReq\022\022\n\ninstrument\030\001 \001(\t\022\r\n\005ind"
   "ex\030\002 \001(\t\022%\n\005order\030\003 \001(\0132\026.strategy_trade"
   "r.Order\"2\n\007RspInfo\022\022\n\norderPrice\030\001 \001(\001\022\023"
-  "\n\013orderVolume\030\002 \001(\r\"\210\002\n\005Order\022\022\n\ninstrum"
+  "\n\013orderVolume\030\002 \001(\r\"\234\002\n\005Order\022\022\n\ninstrum"
   "ent\030\001 \001(\t\022\022\n\nexchangeId\030\002 \001(\t\022-\n\tdirecti"
   "on\030\003 \001(\0162\032.strategy_trader.Direction\022\023\n\013"
   "limit_price\030\004 \001(\001\022\023\n\013once_volume\030\005 \001(\r\0229"
   "\n\020comb_offset_flag\030\006 \001(\0162\037.strategy_trad"
   "er.CombOffsetType\022\023\n\013hold_volume\030\007 \001(\r\022."
   "\n\norder_type\030\010 \001(\0162\032.strategy_trader.Ord"
-  "erType\"N\n\022TransactionCostReq\0228\n\017instrume"
-  "nt_info\030\001 \001(\0132\037.strategy_trader.Instrume"
-  "ntInfo\"\217\002\n\rMarginRateRsp\022\017\n\007user_id\030\001 \001("
-  "\t\022\025\n\rinstrument_id\030\002 \001(\t\022\023\n\013exchange_id\030"
-  "\003 \001(\t\022\036\n\026LongMarginRatioByMoney\030\004 \001(\001\022\037\n"
-  "\027LongMarginRatioByVolume\030\005 \001(\001\022\037\n\027ShortM"
-  "arginRatioByMoney\030\006 \001(\001\022 \n\030ShortMarginRa"
-  "tioByVolume\030\007 \001(\001\022\'\n\006result\030\010 \001(\0162\027.stra"
-  "tegy_trader.Result\022\024\n\014failedReason\030\t \001(\t"
-  "\"\274\002\n\021CommissionRateRsp\022\017\n\007user_id\030\001 \001(\t\022"
-  "\025\n\rinstrument_id\030\002 \001(\t\022\023\n\013exchange_id\030\003 "
-  "\001(\t\022\030\n\020OpenRatioByMoney\030\004 \001(\001\022\031\n\021OpenRat"
-  "ioByVolume\030\005 \001(\001\022\031\n\021CloseRatioByMoney\030\006 "
-  "\001(\001\022\032\n\022CloseRatioByVolume\030\007 \001(\001\022\036\n\026Close"
-  "TodayRatioByMoney\030\010 \001(\001\022\037\n\027CloseTodayRat"
-  "ioByVolume\030\t \001(\001\022\'\n\006result\030\n \001(\0162\027.strat"
-  "egy_trader.Result\022\024\n\014failedReason\030\013 \001(\t\""
-  "<\n\016InstrumentInfo\022\025\n\rinstrument_id\030\001 \001(\t"
-  "\022\023\n\013exchange_id\030\002 \001(\t\" \n\rAccountSetRsp\022\017"
-  "\n\007account\030\001 \003(\t\"w\n\017ActiveSafetyReq\022=\n\007sa"
-  "fe_id\030\001 \001(\0162,.strategy_trader.ActiveSafe"
-  "tyReq.MessageType\"%\n\013MessageType\022\013\n\007rese"
-  "rve\020\000\022\t\n\005isrun\020\001\"!\n\017ActiveSafetyRsp\022\016\n\006s"
-  "tatus\030\001 \001(\010\"*\n\025CheckStrategyAliveReq\022\021\n\t"
-  "alive_req\030\001 \001(\010\"*\n\025CheckStrategyAliveRsp"
-  "\022\021\n\talive_rsp\030\001 \001(\010\"(\n\023CheckTraderAliveR"
-  "eq\022\021\n\talive_req\030\001 \001(\010\"(\n\023CheckTraderAliv"
-  "eRsp\022\021\n\talive_rsp\030\001 \001(\010\"5\n\020OrderPosition"
-  "Req\022\022\n\ninstrument\030\001 \001(\t\022\r\n\005index\030\002 \001(\t\"E"
-  "\n\020OrderPositionRsp\022\022\n\ninstrument\030\001 \001(\t\022\r"
-  "\n\005index\030\002 \001(\t\022\016\n\006volume\030\003 \001(\r\" \n\014GroupSi"
-  "zeReq\022\020\n\010size_req\030\001 \001(\r\" \n\014GroupSizeRsp\022"
-  "\020\n\010size_rsp\030\001 \001(\r*/\n\005Level\022\021\n\rLevel_INVA"
-  "LID\020\000\022\007\n\003ALL\020\001\022\n\n\006SINGLE\020\002*\334\001\n\014FailedRea"
-  "son\022\030\n\024FailedReason_INVALID\020\000\022\026\n\022Strateg"
-  "y_Ind_Error\020\001\022\024\n\020Order_Fill_Error\020\002\022\020\n\014O"
-  "rder_Cancel\020\003\022\027\n\023Fund_Shortage_Error\020\004\022\023"
-  "\n\017No_Opened_Order\020\005\022\023\n\017No_Trading_Time\020\006"
-  "\022\025\n\021No_Enough_Capital\020\007\022\030\n\024Account_Assig"
-  "n_Error\020\010*5\n\006Result\022\022\n\016Result_INVALID\020\000\022"
-  "\013\n\007success\020\001\022\n\n\006failed\020\002*5\n\tDirection\022\025\n"
-  "\021Direction_INVALID\020\000\022\007\n\003BUY\020\001\022\010\n\004SELL\020\002*"
-  "u\n\tOrderType\022\025\n\021OrderType_INVALID\020\000\022\017\n\013l"
-  "imit_LIMIT\020\001\022\r\n\tLimit_FAK\020\002\022\r\n\tlimit_FOK"
-  "\020\003\022\020\n\014AnyPrice_Fok\020\004\022\020\n\014AnyPrice_Fak\020\005*X"
-  "\n\016CombOffsetType\022\013\n\007INVALID\020\000\022\010\n\004OPEN\020\001\022"
-  "\t\n\005CLOSE\020\002\022\023\n\017CLOSE_YESTERDAY\020\003\022\017\n\013CLOSE"
-  "_TODAY\020\004b\006proto3"
+  "erType\022\022\n\nis_special\030\t \001(\r\"N\n\022Transactio"
+  "nCostReq\0228\n\017instrument_info\030\001 \001(\0132\037.stra"
+  "tegy_trader.InstrumentInfo\"\217\002\n\rMarginRat"
+  "eRsp\022\017\n\007user_id\030\001 \001(\t\022\025\n\rinstrument_id\030\002"
+  " \001(\t\022\023\n\013exchange_id\030\003 \001(\t\022\036\n\026LongMarginR"
+  "atioByMoney\030\004 \001(\001\022\037\n\027LongMarginRatioByVo"
+  "lume\030\005 \001(\001\022\037\n\027ShortMarginRatioByMoney\030\006 "
+  "\001(\001\022 \n\030ShortMarginRatioByVolume\030\007 \001(\001\022\'\n"
+  "\006result\030\010 \001(\0162\027.strategy_trader.Result\022\024"
+  "\n\014failedReason\030\t \001(\t\"\274\002\n\021CommissionRateR"
+  "sp\022\017\n\007user_id\030\001 \001(\t\022\025\n\rinstrument_id\030\002 \001"
+  "(\t\022\023\n\013exchange_id\030\003 \001(\t\022\030\n\020OpenRatioByMo"
+  "ney\030\004 \001(\001\022\031\n\021OpenRatioByVolume\030\005 \001(\001\022\031\n\021"
+  "CloseRatioByMoney\030\006 \001(\001\022\032\n\022CloseRatioByV"
+  "olume\030\007 \001(\001\022\036\n\026CloseTodayRatioByMoney\030\010 "
+  "\001(\001\022\037\n\027CloseTodayRatioByVolume\030\t \001(\001\022\'\n\006"
+  "result\030\n \001(\0162\027.strategy_trader.Result\022\024\n"
+  "\014failedReason\030\013 \001(\t\"<\n\016InstrumentInfo\022\025\n"
+  "\rinstrument_id\030\001 \001(\t\022\023\n\013exchange_id\030\002 \001("
+  "\t\" \n\rAccountSetRsp\022\017\n\007account\030\001 \003(\t\"w\n\017A"
+  "ctiveSafetyReq\022=\n\007safe_id\030\001 \001(\0162,.strate"
+  "gy_trader.ActiveSafetyReq.MessageType\"%\n"
+  "\013MessageType\022\013\n\007reserve\020\000\022\t\n\005isrun\020\001\"!\n\017"
+  "ActiveSafetyRsp\022\016\n\006status\030\001 \001(\010\"*\n\025Check"
+  "StrategyAliveReq\022\021\n\talive_req\030\001 \001(\010\"*\n\025C"
+  "heckStrategyAliveRsp\022\021\n\talive_rsp\030\001 \001(\010\""
+  "(\n\023CheckTraderAliveReq\022\021\n\talive_req\030\001 \001("
+  "\010\"(\n\023CheckTraderAliveRsp\022\021\n\talive_rsp\030\001 "
+  "\001(\010\"5\n\020OrderPositionReq\022\022\n\ninstrument\030\001 "
+  "\001(\t\022\r\n\005index\030\002 \001(\t\"E\n\020OrderPositionRsp\022\022"
+  "\n\ninstrument\030\001 \001(\t\022\r\n\005index\030\002 \001(\t\022\016\n\006vol"
+  "ume\030\003 \001(\r\" \n\014GroupSizeReq\022\020\n\010size_req\030\001 "
+  "\001(\r\"A\n\014GroupSizeRsp\022\027\n\017common_size_rsp\030\001"
+  " \001(\r\022\030\n\020special_size_rsp\030\002 \001(\r*/\n\005Level\022"
+  "\021\n\rLevel_INVALID\020\000\022\007\n\003ALL\020\001\022\n\n\006SINGLE\020\002*"
+  "\334\001\n\014FailedReason\022\030\n\024FailedReason_INVALID"
+  "\020\000\022\026\n\022Strategy_Ind_Error\020\001\022\024\n\020Order_Fill"
+  "_Error\020\002\022\020\n\014Order_Cancel\020\003\022\027\n\023Fund_Short"
+  "age_Error\020\004\022\023\n\017No_Opened_Order\020\005\022\023\n\017No_T"
+  "rading_Time\020\006\022\025\n\021No_Enough_Capital\020\007\022\030\n\024"
+  "Account_Assign_Error\020\010*5\n\006Result\022\022\n\016Resu"
+  "lt_INVALID\020\000\022\013\n\007success\020\001\022\n\n\006failed\020\002*5\n"
+  "\tDirection\022\025\n\021Direction_INVALID\020\000\022\007\n\003BUY"
+  "\020\001\022\010\n\004SELL\020\002*u\n\tOrderType\022\025\n\021OrderType_I"
+  "NVALID\020\000\022\017\n\013limit_LIMIT\020\001\022\r\n\tLimit_FAK\020\002"
+  "\022\r\n\tlimit_FOK\020\003\022\020\n\014AnyPrice_Fok\020\004\022\020\n\014Any"
+  "Price_Fak\020\005*X\n\016CombOffsetType\022\013\n\007INVALID"
+  "\020\000\022\010\n\004OPEN\020\001\022\t\n\005CLOSE\020\002\022\023\n\017CLOSE_YESTERD"
+  "AY\020\003\022\017\n\013CLOSE_TODAY\020\004b\006proto3"
   ;
 static ::_pbi::once_flag descriptor_table_strategy_2dtrader_2eproto_once;
 const ::_pbi::DescriptorTable descriptor_table_strategy_2dtrader_2eproto = {
-    false, false, 4096, descriptor_table_protodef_strategy_2dtrader_2eproto,
+    false, false, 4149, descriptor_table_protodef_strategy_2dtrader_2eproto,
     "strategy-trader.proto",
     &descriptor_table_strategy_2dtrader_2eproto_once, nullptr, 0, 23,
     schemas, file_default_instances, TableStruct_strategy_2dtrader_2eproto::offsets,
@@ -4109,6 +4114,7 @@ Order::Order(const Order& from)
     , decltype(_impl_.comb_offset_flag_){}
     , decltype(_impl_.hold_volume_){}
     , decltype(_impl_.order_type_){}
+    , decltype(_impl_.is_special_){}
     , /*decltype(_impl_._cached_size_)*/{}};
 
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
@@ -4129,8 +4135,8 @@ Order::Order(const Order& from)
       _this->GetArenaForAllocation());
   }
   ::memcpy(&_impl_.limit_price_, &from._impl_.limit_price_,
-    static_cast<size_t>(reinterpret_cast<char*>(&_impl_.order_type_) -
-    reinterpret_cast<char*>(&_impl_.limit_price_)) + sizeof(_impl_.order_type_));
+    static_cast<size_t>(reinterpret_cast<char*>(&_impl_.is_special_) -
+    reinterpret_cast<char*>(&_impl_.limit_price_)) + sizeof(_impl_.is_special_));
   // @@protoc_insertion_point(copy_constructor:strategy_trader.Order)
 }
 
@@ -4147,6 +4153,7 @@ inline void Order::SharedCtor(
     , decltype(_impl_.comb_offset_flag_){0}
     , decltype(_impl_.hold_volume_){0u}
     , decltype(_impl_.order_type_){0}
+    , decltype(_impl_.is_special_){0u}
     , /*decltype(_impl_._cached_size_)*/{}
   };
   _impl_.instrument_.InitDefault();
@@ -4187,8 +4194,8 @@ void Order::Clear() {
   _impl_.instrument_.ClearToEmpty();
   _impl_.exchangeid_.ClearToEmpty();
   ::memset(&_impl_.limit_price_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&_impl_.order_type_) -
-      reinterpret_cast<char*>(&_impl_.limit_price_)) + sizeof(_impl_.order_type_));
+      reinterpret_cast<char*>(&_impl_.is_special_) -
+      reinterpret_cast<char*>(&_impl_.limit_price_)) + sizeof(_impl_.is_special_));
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
@@ -4266,6 +4273,14 @@ const char* Order::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
           uint64_t val = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
           CHK_(ptr);
           _internal_set_order_type(static_cast<::strategy_trader::OrderType>(val));
+        } else
+          goto handle_unusual;
+        continue;
+      // uint32 is_special = 9;
+      case 9:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 72)) {
+          _impl_.is_special_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+          CHK_(ptr);
         } else
           goto handle_unusual;
         continue;
@@ -4361,6 +4376,12 @@ uint8_t* Order::_InternalSerialize(
       8, this->_internal_order_type(), target);
   }
 
+  // uint32 is_special = 9;
+  if (this->_internal_is_special() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteUInt32ToArray(9, this->_internal_is_special(), target);
+  }
+
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
     target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
         _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
@@ -4428,6 +4449,11 @@ size_t Order::ByteSizeLong() const {
       ::_pbi::WireFormatLite::EnumSize(this->_internal_order_type());
   }
 
+  // uint32 is_special = 9;
+  if (this->_internal_is_special() != 0) {
+    total_size += ::_pbi::WireFormatLite::UInt32SizePlusOne(this->_internal_is_special());
+  }
+
   return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
 }
 
@@ -4474,6 +4500,9 @@ void Order::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF
   if (from._internal_order_type() != 0) {
     _this->_internal_set_order_type(from._internal_order_type());
   }
+  if (from._internal_is_special() != 0) {
+    _this->_internal_set_is_special(from._internal_is_special());
+  }
   _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
 }
 
@@ -4502,8 +4531,8 @@ void Order::InternalSwap(Order* other) {
       &other->_impl_.exchangeid_, rhs_arena
   );
   ::PROTOBUF_NAMESPACE_ID::internal::memswap<
-      PROTOBUF_FIELD_OFFSET(Order, _impl_.order_type_)
-      + sizeof(Order::_impl_.order_type_)
+      PROTOBUF_FIELD_OFFSET(Order, _impl_.is_special_)
+      + sizeof(Order::_impl_.is_special_)
       - PROTOBUF_FIELD_OFFSET(Order, _impl_.limit_price_)>(
           reinterpret_cast<char*>(&_impl_.limit_price_),
           reinterpret_cast<char*>(&other->_impl_.limit_price_));
@@ -8093,11 +8122,14 @@ GroupSizeRsp::GroupSizeRsp(const GroupSizeRsp& from)
   : ::PROTOBUF_NAMESPACE_ID::Message() {
   GroupSizeRsp* const _this = this; (void)_this;
   new (&_impl_) Impl_{
-      decltype(_impl_.size_rsp_){}
+      decltype(_impl_.common_size_rsp_){}
+    , decltype(_impl_.special_size_rsp_){}
     , /*decltype(_impl_._cached_size_)*/{}};
 
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
-  _this->_impl_.size_rsp_ = from._impl_.size_rsp_;
+  ::memcpy(&_impl_.common_size_rsp_, &from._impl_.common_size_rsp_,
+    static_cast<size_t>(reinterpret_cast<char*>(&_impl_.special_size_rsp_) -
+    reinterpret_cast<char*>(&_impl_.common_size_rsp_)) + sizeof(_impl_.special_size_rsp_));
   // @@protoc_insertion_point(copy_constructor:strategy_trader.GroupSizeRsp)
 }
 
@@ -8106,7 +8138,8 @@ inline void GroupSizeRsp::SharedCtor(
   (void)arena;
   (void)is_message_owned;
   new (&_impl_) Impl_{
-      decltype(_impl_.size_rsp_){0u}
+      decltype(_impl_.common_size_rsp_){0u}
+    , decltype(_impl_.special_size_rsp_){0u}
     , /*decltype(_impl_._cached_size_)*/{}
   };
 }
@@ -8134,7 +8167,9 @@ void GroupSizeRsp::Clear() {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  _impl_.size_rsp_ = 0u;
+  ::memset(&_impl_.common_size_rsp_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&_impl_.special_size_rsp_) -
+      reinterpret_cast<char*>(&_impl_.common_size_rsp_)) + sizeof(_impl_.special_size_rsp_));
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
@@ -8144,10 +8179,18 @@ const char* GroupSizeRsp::_InternalParse(const char* ptr, ::_pbi::ParseContext* 
     uint32_t tag;
     ptr = ::_pbi::ReadTag(ptr, &tag);
     switch (tag >> 3) {
-      // uint32 size_rsp = 1;
+      // uint32 common_size_rsp = 1;
       case 1:
         if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 8)) {
-          _impl_.size_rsp_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+          _impl_.common_size_rsp_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // uint32 special_size_rsp = 2;
+      case 2:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 16)) {
+          _impl_.special_size_rsp_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
           CHK_(ptr);
         } else
           goto handle_unusual;
@@ -8181,10 +8224,16 @@ uint8_t* GroupSizeRsp::_InternalSerialize(
   uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // uint32 size_rsp = 1;
-  if (this->_internal_size_rsp() != 0) {
+  // uint32 common_size_rsp = 1;
+  if (this->_internal_common_size_rsp() != 0) {
     target = stream->EnsureSpace(target);
-    target = ::_pbi::WireFormatLite::WriteUInt32ToArray(1, this->_internal_size_rsp(), target);
+    target = ::_pbi::WireFormatLite::WriteUInt32ToArray(1, this->_internal_common_size_rsp(), target);
+  }
+
+  // uint32 special_size_rsp = 2;
+  if (this->_internal_special_size_rsp() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteUInt32ToArray(2, this->_internal_special_size_rsp(), target);
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
@@ -8203,9 +8252,14 @@ size_t GroupSizeRsp::ByteSizeLong() const {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  // uint32 size_rsp = 1;
-  if (this->_internal_size_rsp() != 0) {
-    total_size += ::_pbi::WireFormatLite::UInt32SizePlusOne(this->_internal_size_rsp());
+  // uint32 common_size_rsp = 1;
+  if (this->_internal_common_size_rsp() != 0) {
+    total_size += ::_pbi::WireFormatLite::UInt32SizePlusOne(this->_internal_common_size_rsp());
+  }
+
+  // uint32 special_size_rsp = 2;
+  if (this->_internal_special_size_rsp() != 0) {
+    total_size += ::_pbi::WireFormatLite::UInt32SizePlusOne(this->_internal_special_size_rsp());
   }
 
   return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
@@ -8226,8 +8280,11 @@ void GroupSizeRsp::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::P
   uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
 
-  if (from._internal_size_rsp() != 0) {
-    _this->_internal_set_size_rsp(from._internal_size_rsp());
+  if (from._internal_common_size_rsp() != 0) {
+    _this->_internal_set_common_size_rsp(from._internal_common_size_rsp());
+  }
+  if (from._internal_special_size_rsp() != 0) {
+    _this->_internal_set_special_size_rsp(from._internal_special_size_rsp());
   }
   _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
 }
@@ -8246,7 +8303,12 @@ bool GroupSizeRsp::IsInitialized() const {
 void GroupSizeRsp::InternalSwap(GroupSizeRsp* other) {
   using std::swap;
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
-  swap(_impl_.size_rsp_, other->_impl_.size_rsp_);
+  ::PROTOBUF_NAMESPACE_ID::internal::memswap<
+      PROTOBUF_FIELD_OFFSET(GroupSizeRsp, _impl_.special_size_rsp_)
+      + sizeof(GroupSizeRsp::_impl_.special_size_rsp_)
+      - PROTOBUF_FIELD_OFFSET(GroupSizeRsp, _impl_.common_size_rsp_)>(
+          reinterpret_cast<char*>(&_impl_.common_size_rsp_),
+          reinterpret_cast<char*>(&other->_impl_.common_size_rsp_));
 }
 
 ::PROTOBUF_NAMESPACE_ID::Metadata GroupSizeRsp::GetMetadata() const {

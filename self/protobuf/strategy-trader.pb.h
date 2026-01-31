@@ -2193,6 +2193,7 @@ class Order final :
     kCombOffsetFlagFieldNumber = 6,
     kHoldVolumeFieldNumber = 7,
     kOrderTypeFieldNumber = 8,
+    kIsSpecialFieldNumber = 9,
   };
   // string instrument = 1;
   void clear_instrument();
@@ -2276,6 +2277,15 @@ class Order final :
   void _internal_set_order_type(::strategy_trader::OrderType value);
   public:
 
+  // uint32 is_special = 9;
+  void clear_is_special();
+  uint32_t is_special() const;
+  void set_is_special(uint32_t value);
+  private:
+  uint32_t _internal_is_special() const;
+  void _internal_set_is_special(uint32_t value);
+  public:
+
   // @@protoc_insertion_point(class_scope:strategy_trader.Order)
  private:
   class _Internal;
@@ -2292,6 +2302,7 @@ class Order final :
     int comb_offset_flag_;
     uint32_t hold_volume_;
     int order_type_;
+    uint32_t is_special_;
     mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   };
   union { Impl_ _impl_; };
@@ -4858,15 +4869,25 @@ class GroupSizeRsp final :
   // accessors -------------------------------------------------------
 
   enum : int {
-    kSizeRspFieldNumber = 1,
+    kCommonSizeRspFieldNumber = 1,
+    kSpecialSizeRspFieldNumber = 2,
   };
-  // uint32 size_rsp = 1;
-  void clear_size_rsp();
-  uint32_t size_rsp() const;
-  void set_size_rsp(uint32_t value);
+  // uint32 common_size_rsp = 1;
+  void clear_common_size_rsp();
+  uint32_t common_size_rsp() const;
+  void set_common_size_rsp(uint32_t value);
   private:
-  uint32_t _internal_size_rsp() const;
-  void _internal_set_size_rsp(uint32_t value);
+  uint32_t _internal_common_size_rsp() const;
+  void _internal_set_common_size_rsp(uint32_t value);
+  public:
+
+  // uint32 special_size_rsp = 2;
+  void clear_special_size_rsp();
+  uint32_t special_size_rsp() const;
+  void set_special_size_rsp(uint32_t value);
+  private:
+  uint32_t _internal_special_size_rsp() const;
+  void _internal_set_special_size_rsp(uint32_t value);
   public:
 
   // @@protoc_insertion_point(class_scope:strategy_trader.GroupSizeRsp)
@@ -4877,7 +4898,8 @@ class GroupSizeRsp final :
   typedef void InternalArenaConstructable_;
   typedef void DestructorSkippable_;
   struct Impl_ {
-    uint32_t size_rsp_;
+    uint32_t common_size_rsp_;
+    uint32_t special_size_rsp_;
     mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   };
   union { Impl_ _impl_; };
@@ -7557,6 +7579,26 @@ inline void Order::set_order_type(::strategy_trader::OrderType value) {
   // @@protoc_insertion_point(field_set:strategy_trader.Order.order_type)
 }
 
+// uint32 is_special = 9;
+inline void Order::clear_is_special() {
+  _impl_.is_special_ = 0u;
+}
+inline uint32_t Order::_internal_is_special() const {
+  return _impl_.is_special_;
+}
+inline uint32_t Order::is_special() const {
+  // @@protoc_insertion_point(field_get:strategy_trader.Order.is_special)
+  return _internal_is_special();
+}
+inline void Order::_internal_set_is_special(uint32_t value) {
+  
+  _impl_.is_special_ = value;
+}
+inline void Order::set_is_special(uint32_t value) {
+  _internal_set_is_special(value);
+  // @@protoc_insertion_point(field_set:strategy_trader.Order.is_special)
+}
+
 // -------------------------------------------------------------------
 
 // TransactionCostReq
@@ -8882,24 +8924,44 @@ inline void GroupSizeReq::set_size_req(uint32_t value) {
 
 // GroupSizeRsp
 
-// uint32 size_rsp = 1;
-inline void GroupSizeRsp::clear_size_rsp() {
-  _impl_.size_rsp_ = 0u;
+// uint32 common_size_rsp = 1;
+inline void GroupSizeRsp::clear_common_size_rsp() {
+  _impl_.common_size_rsp_ = 0u;
 }
-inline uint32_t GroupSizeRsp::_internal_size_rsp() const {
-  return _impl_.size_rsp_;
+inline uint32_t GroupSizeRsp::_internal_common_size_rsp() const {
+  return _impl_.common_size_rsp_;
 }
-inline uint32_t GroupSizeRsp::size_rsp() const {
-  // @@protoc_insertion_point(field_get:strategy_trader.GroupSizeRsp.size_rsp)
-  return _internal_size_rsp();
+inline uint32_t GroupSizeRsp::common_size_rsp() const {
+  // @@protoc_insertion_point(field_get:strategy_trader.GroupSizeRsp.common_size_rsp)
+  return _internal_common_size_rsp();
 }
-inline void GroupSizeRsp::_internal_set_size_rsp(uint32_t value) {
+inline void GroupSizeRsp::_internal_set_common_size_rsp(uint32_t value) {
   
-  _impl_.size_rsp_ = value;
+  _impl_.common_size_rsp_ = value;
 }
-inline void GroupSizeRsp::set_size_rsp(uint32_t value) {
-  _internal_set_size_rsp(value);
-  // @@protoc_insertion_point(field_set:strategy_trader.GroupSizeRsp.size_rsp)
+inline void GroupSizeRsp::set_common_size_rsp(uint32_t value) {
+  _internal_set_common_size_rsp(value);
+  // @@protoc_insertion_point(field_set:strategy_trader.GroupSizeRsp.common_size_rsp)
+}
+
+// uint32 special_size_rsp = 2;
+inline void GroupSizeRsp::clear_special_size_rsp() {
+  _impl_.special_size_rsp_ = 0u;
+}
+inline uint32_t GroupSizeRsp::_internal_special_size_rsp() const {
+  return _impl_.special_size_rsp_;
+}
+inline uint32_t GroupSizeRsp::special_size_rsp() const {
+  // @@protoc_insertion_point(field_get:strategy_trader.GroupSizeRsp.special_size_rsp)
+  return _internal_special_size_rsp();
+}
+inline void GroupSizeRsp::_internal_set_special_size_rsp(uint32_t value) {
+  
+  _impl_.special_size_rsp_ = value;
+}
+inline void GroupSizeRsp::set_special_size_rsp(uint32_t value) {
+  _internal_set_special_size_rsp(value);
+  // @@protoc_insertion_point(field_set:strategy_trader.GroupSizeRsp.special_size_rsp)
 }
 
 #ifdef __GNUC__

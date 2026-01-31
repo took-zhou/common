@@ -60,6 +60,7 @@ struct OrderContent {
   uint32_t fail_volume;
   double limit_price;
   bool active_cancle_indication;
+  bool is_special;
   bool is_flow_finished;
 };
 
